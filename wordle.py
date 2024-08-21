@@ -2,6 +2,18 @@
 word = "freak"
 
 # TASK B: Define a function 'makeAGuess()' that passes in a users guess as a parameter
+def makeAGuess(guess): 
+  hint = ""
+  for i in range(5):
+    if guess[i] == word[i]:
+      hint += "G"
+    elif guess[i] in word:
+      hint += "Y"
+    else:
+      hint += "-"
+  return(hint)
+
+
 
 
   # TASK C:Define a variable 'hint' that holds an empty string
