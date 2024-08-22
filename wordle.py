@@ -1,7 +1,24 @@
 # TASK A: Define a variable 'word' that holds the correct word for the wordle game
-
-
+word = "freaky"
+guessNum = 6
 # TASK B: Define a function 'makeAGuess()' that passes in a users guess as a parameter
+def makeAGuess(guess): 
+  hint = ""
+  won = True
+  for i in range(len(word)):
+    if guess[i] == word[i]:
+      hint += "G"
+    elif guess[i] in word:
+      hint += "Y"
+      won = False
+    else:
+      hint += "-"
+      won = False
+  if won:
+    return("won")
+  return(hint)
+
+
 
 
   # TASK C:Define a variable 'hint' that holds an empty string
@@ -25,7 +42,16 @@
 print("Let's play wordle! /n Guess the Wordle in 6 tries. Each guess must be a valid 5-letter word. For each guess, a hint will tell you how many letters you've guessed correctly. A G represents a letter in the word and in the correct spot.. A Y represents a letter in the word but in the wrong spot. A - represents a letter not in the word in any spot. \n Guess below! \n")
 
 # TASK I: Build a loop that loops 6 times (representing the number of guesses a user has)
-
+i = 0
+while i < guessNum:
+  guess = input("Guess a " + str(len(word)) + " letter word")
+  hint = makeAGuess(guess)
+  if hint == "won":
+    print("You won!")
+    break
+  print(hint)
+if won != True:
+  print("You lost! The word was: " + word)
 
   # TASK J: Define a variable 'guess'. prompt the user for their 5-letter guess and store it in the variable
 
