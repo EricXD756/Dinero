@@ -1,10 +1,7 @@
 import character.character
 import item.item
 import math
-day = 0
-waterCount = 0
-foodCount = 0
-money = 0
+money = 100
 inventory = []
 
 char1 = character("John", "fine", [], 20, 20, 99, 99)
@@ -15,6 +12,13 @@ char2.dialogue = ["Hey! How are you?", "Hey there!", "What's next?", "Could I ha
 
 char3 = character("Neil", "fine", [], 20, 20, 99, 99)
 char3.dialogue = ["Hi! How are you?", "What's up?", "What's next?", "Man, I'm thirsty", "You got something to drink?", "Lets hunt something, I'm hungry", "You got something to eat?", "The world feels like its spinning", "I feel feint", "That bear over there looks delicious right now", "I haven't eaten for days...", "Aghh, I need something for this cut", "It won't stop bleeding!", "I feel really ill", "Please tell me you brought medicine", char3.name + " has passed"]
+
+char4 = character("Anne", "fine", [], 20, 20, 99, 99)
+char4.dialogue = ["Hey, what's up?", "Hows it going?", "Yeah?", "I could use something to drink", "Could I get a water?", "We got some extra food?", "I'm hungry", "I'm seeing stars", "I.. Need.. Water..", "My stomach hurts... so... bad", "I could literally eat anything right now", "Aghh, I'm bleeding!", "Oh my gosh this hurts", "I'm so fatigued'", "I think I'm dying...", char4.name + " has passed"]
+
+medicine = item("consumable", "medicine", 10)
+medkit = item("consumable", "medkit", 15)
+
 def characterInteract(character, status):
     if status == "fine":
         rand = math.random(0,3)
@@ -115,8 +119,48 @@ def playGame():
     print("You are the leader of your group, and you need to manage your group's resources and make decisions to ensure the survival of your group.")
     print("Good luck!")
     
-    if input("Would you like to change your character's name? (Y/N): ").lower() == "y":
+    if input("Would you like to change your characters' names? (Y/N): ").lower() == "y":
         char1.name = input("Give your first character a name: ")
         char2.name = input("Give your second character a name: ")
         char3.name = input("Give your third character a name: ")
+        char4.name = input("Give your fourth character a name: ")
+    alive = True
+    day = 0
+    while day <= 30 and alive:
+        print("Day: "+ day)
+        if day == 0:
+            print("Today is the day before your trip! You have 100 dollars to spend on supplies.")
+            exitShop = "n"
+            while exitShop.lower() != "y":
+                print("You have $" + money + " left.")
+                print("What would you like to buy?")
+                print("1. Water ($2)")
+                print("2. Food ($3)")
+                print("3. Medicine ($10)")
+                print("4. Medkit ($15)")
+                print("5. Exit")
+                choice = input("Enter the number of your choice: ")
+                if choice == "1":
+                    if money >= 2:
+                        inventory.append(water)
+                        money -= 2
+                    else:
+                        print("You don't have enough money.")
+                elif choice == "2":
+                    if money >= 3:
+                        inventory.append(food)
+                        money -= 3
+                    else:
+                        print("You don't have enough money.")
+                elif choice == "3":
+                    if money >= 5:
+                        inventory.append(medicine)
+                        money -= 5
+                    else:
+                        print("You don't have enough money.")
+                elif choice == "4":
+                    if money >= 10:
+                        inventory.append(medkit)
+                        money -= 10
+        
 
