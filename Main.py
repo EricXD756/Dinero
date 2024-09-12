@@ -2,6 +2,8 @@ import character.character
 import item.item
 import math
 money = 100
+foodCount = 0
+waterCount = 0
 inventory = []
 
 char1 = character("John", "fine", [], 20, 20, 99, 99)
@@ -18,52 +20,53 @@ char4.dialogue = ["Hey, what's up?", "Hows it going?", "Yeah?", "I could use som
 
 medicine = item("consumable", "medicine", 10)
 medkit = item("consumable", "medkit", 15)
+artifact = item("artifact", "artifact", 30)
 
 def characterInteract(character, status):
     if status == "fine":
         rand = math.random(0,3)
         if rand < 1:
-            print(character.dialogue[0])
+            print(f"{character.name}: {character.dialogue[0]}")
         elif rand < 2:
-            print(character.dialogue[1])
+            print(f"{character.name}: {character.dialogue[1]}")
         else:
-            print(character.dialogue[2])
+            print(f"{character.name}: {character.dialogue[2]}")
     elif status == "thirsty":
         rand = math.random(0, 2)
         if rand < 1:
-            print(character.dialogue[3])
+            print(f"{character.name}: {character.dialogue[3]}")
         else:
-            print(character.dialogue[4])
+            print(f"{character.name}: {character.dialogue[4]}")
     elif status == "hungry":
         rand = math.random(0, 2)
         if rand < 1:
-            print(character.dialogue[5])
+            print(f"{character.name}: {character.dialogue[5]}")
         else:
-            print(character.dialogue[6])
+            print(f"{character.name}: {character.dialogue[6]}")
     elif status == "parched":
         rand = math.random(0, 2)
         if rand < 1:
-            print(character.dialogue[7])
+            print(f"{character.name}: {character.dialogue[7]}")
         else:
-            print(character.dialogue[8])
+            print(f"{character.name}: {character.dialogue[8]}")
     elif status == "starved":
         rand = math.random(0, 2)
         if rand < 1:
-            print(character.dialogue[9])
+            print(f"{character.name}: {character.dialogue[9]}")
         else:
-            print(character.dialogue[10])
+            print(f"{character.name}: {character.dialogue[10]}")
     elif status == "sick":
         rand = math.random(0, 2)
         if rand < 1:
-            print(character.dialogue[11])
+            print(f"{character.name}: {character.dialogue[11]}")
         else:
-            print(character.dialogue[12])
+            print(f"{character.name}: {character.dialogue[12]}")
     elif status == "injured":
         rand = math.random(0, 2)
         if rand < 1:
-            print(character.dialogue[13])
+            print(f"{character.name}: {character.dialogue[13]}")
         else:
-            print(character.dialogue[14])
+            print(f"{character.name}: {character.dialogue[14]}")
     elif status == "dead":
         print(character.dialogue[15])
 
@@ -112,6 +115,12 @@ def passTime(character):
     # Update character status
     character.status = updateStatus(character)
 
+def distributeResources(char):
+    characterInteract(char, char.status)
+    if char.status != "dead":
+        res = input(f"What would you like to give to {char.name}? 1. Water 2. Food 3. Medicine 4. Medkit")
+
+
 def playGame():
 
     print("Welcome to the Oregon Trail(Temu Edition)!")
@@ -142,25 +151,124 @@ def playGame():
                 choice = input("Enter the number of your choice: ")
                 if choice == "1":
                     if money >= 2:
-                        inventory.append(water)
+                        waterCount += 5
                         money -= 2
+                        print("Water purchased.")
                     else:
                         print("You don't have enough money.")
                 elif choice == "2":
                     if money >= 3:
-                        inventory.append(food)
+                        foodCount += 5
                         money -= 3
+                        print("Food purchased.")
                     else:
                         print("You don't have enough money.")
                 elif choice == "3":
-                    if money >= 5:
+                    if money >= 10:
                         inventory.append(medicine)
-                        money -= 5
+                        money -= 10
+                        print("Medicine purchased.")
                     else:
                         print("You don't have enough money.")
                 elif choice == "4":
-                    if money >= 10:
+                    if money >= 15:
                         inventory.append(medkit)
+                        money -= 15
+                elif  choice == "5":
+                    if input("Are you sure you want to exit? (Y/N): ").lower() == "y":
+                        exitShop = "y"
+        
+        elif day % 5 == 0:
+            print("You've reached a town and can visit the shop!")
+            exitShop = "n"
+            while exitShop.lower() != "y":
+                print("You have $" + str(money) + " left.")
+                print("What would you like to do?")
+                print("1. Water ($3)")
+                print("2. Food ($5)")
+                print("3. Medicine ($15)")
+                print("4. Medkit ($20)")
+                print("5. Sell Water ($1.5)")
+                print("6. Sell Food ($2.5)")
+                print("7. Sell Medicine ($7.5)")
+                print("8. Sell Medkit ($10)")
+                print("9. Sell Artifact ($20)")
+                print("0. Exit")
+                choice = input("Enter the number of your choice: ")
+                if choice == "1":
+                    if money >= 2:
+                        waterCount += 5
+                        money -= 2
+                        print("Water purchased.")
+                    else:
+                        print("You don't have enough money.")
+                elif choice == "2":
+                    if money >= 3:
+                        foodCount += 5
+                        money -= 3
+                        print("Food purchased.")
+                    else:
+                        print("You don't have enough money.")
+                elif choice == "3":
+                    if money >= 10:
+                        inventory.append(medicine)
                         money -= 10
+                        print("Medicine purchased.")
+                    else:
+                        print("You don't have enough money.")
+                elif choice == "4":
+                    if money >= 15:
+                        inventory.append(medkit)
+                        money -= 15
+                        print("Medkit purchased.")
+                    else:
+                        print("You don't have enough money.")
+                elif choice == "5":
+                    if waterCount >= 5:
+                        waterCount -= 5
+                        money += 1.5
+                        print("Water sold.")
+                    else:
+                        print("You don't have enough water to sell.")
+                elif choice == "6":
+                    if foodCount >= 5:
+                        foodCount -= 5
+                        money += 2.5
+                        print("Food sold.")
+                    else:
+                        print("You don't have enough food to sell.")
+                elif choice == "7":
+                    if medicine in inventory:
+                        inventory.remove(medicine)
+                        money += 7.5
+                        print("Medicine sold.")
+                    else:
+                        print("You don't have any medicine to sell.")
+                elif choice == "8":
+                    if medkit in inventory:
+                        inventory.remove(medkit)
+                        money += 10
+                        print("Medkit sold.")
+                    else:
+                        print("You don't have any medkit to sell.")
+                elif choice == "9":
+                    if artifact in inventory:
+                        inventory.remove(artifact)
+                        money += 20
+                        print("Artifact sold.")
+                    else:
+                        print("You don't have any artifacts to sell.")
+                elif choice == "0":
+                    if input("Are you sure you want to exit? (Y/N): ").lower() == "y":
+                        exitShop = "y"
+                else:
+                    print("Invalid choice. Please try again.")
+            nextDay = "n"
+            while nextDay.lower() != "y":
+                print("Distribute resources to your team")
+                charToDistribute = input(f"Who would you like to distribute resources to? 1. {char1.name}  2. {char2.name}  3. {char3.name}  4. {char4.name}")
+
+            
+        
         
 
