@@ -119,7 +119,49 @@ def distributeResources(char):
     characterInteract(char, char.status)
     if char.status != "dead":
         res = input(f"What would you like to give to {char.name}? 1. Water 2. Food 3. Medicine 4. Medkit")
-
+        if res == "1":
+            if waterCount > 0:
+                wam = input(f"How many liters of water would you like to give to {char.name}?")
+                if wam <= waterCount:    
+                    char.thirst += wam
+                    waterCount -= wam
+                    print(f"Gave water to {char.name}. Thirst increased by {wam}.")
+                else:
+                    print("Not enough water available.")
+            else:
+                print("No water available.")
+        elif res == "2":
+            if foodCount > 0:
+                fam = input(f"How many units of food would you like to give to {char.name}?")
+                if fam <= foodCount:
+                    char.hunger += fam
+                    foodCount -= fam
+                    print(f"Gave food to {char.name}. Hunger increased by {fam}.")
+                else:
+                    print("Not enough food available.")
+            else:
+                print("No food available.")
+        elif res == "3":
+            if "medicine" in inventory:
+                char.sicknessTimer = 99
+                inventory.remove("medicine")
+                print(f"Gave medicine to {char.name}. Sickness cured.")
+            else:
+                print("No medicine available.")
+        elif res == "4":
+            if "medkit" in inventory:
+                char.injuryTimer = 99
+                inventory.remove("medkit")
+                print(f"Used medkit on {char.name}. Injury healed.")
+            else:
+                print("No medkit available.")
+        else:
+            print("Invalid choice. No resources given.")
+        
+        char.status = updateStatus(char)
+        print(f"{char.name}'s new status: {char.status}")
+    else:
+            print(f"{char.name} is dead.")
 
 def playGame():
 
@@ -267,6 +309,8 @@ def playGame():
             while nextDay.lower() != "y":
                 print("Distribute resources to your team")
                 charToDistribute = input(f"Who would you like to distribute resources to? 1. {char1.name}  2. {char2.name}  3. {char3.name}  4. {char4.name}")
+                distributeResources(charToDistribute)
+                nextDay = input("Do you want to continue to the next day? (Y/N): ")
 
             
         
